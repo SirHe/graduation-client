@@ -4,7 +4,7 @@ import { getItem } from './storage'
 import { ElMessage } from 'element-plus'
 
 const service = axios.create({
-  baseURL: BASE_URL,
+  // baseURL: BASE_URL,
   timeout: 5000
 })
 // 请求拦截器

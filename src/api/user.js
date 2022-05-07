@@ -1,11 +1,11 @@
 import { getRequest, postRequest, putRequest } from '../utils/request'
 
 export const login = ({ username, password }) => {
-  return postRequest('/user/login', { username, password })
+  return postRequest('/api/user/login', { username, password })
 }
 
 export const setInfo = (data) => {
-  return postRequest('/user/info', data, {
+  return postRequest('/api/user/info', data, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -13,5 +13,5 @@ export const setInfo = (data) => {
 }
 
 export const getInfo = () => {
-  return getRequest('/user/info')
+  return getRequest('/api/user/info')
 }

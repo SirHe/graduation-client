@@ -6,11 +6,11 @@ import {
 } from '../utils/request'
 
 export const getCategoryList = () => {
-  return getRequest('/article/category')
+  return getRequest('/api/article/category')
 }
 
 export const addArticle = (data) => {
-  return postRequest('/article', data, {
+  return postRequest('/api/article', data, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -18,45 +18,45 @@ export const addArticle = (data) => {
 }
 
 export const deleteArticle = (id) => {
-  return deleteRequest('/article', { id })
+  return deleteRequest('/api/article', { id })
 }
 
 export const getDraftList = (page, size) => {
-  return getRequest('/article/draft', { page, size })
+  return getRequest('/api/article/draft', { page, size })
 }
 
 export const getAuditList = (isPending, page, size) => {
-  return getRequest('/article/audit', { page, size, isPending })
+  return getRequest('/api/article/audit', { page, size, isPending })
 }
 
 export const auditArticle = (id, result) => {
-  return putRequest('/article/audit', { id, result })
+  return putRequest('/api/article/audit', { id, result })
 }
 
 export const submitAudit = (id) => {
-  return postRequest('/article/audit', { id })
+  return postRequest('/api/article/audit', { id })
 }
 
 export const getArticleDetail = (id) => {
-  return getRequest(`/article/${id}`)
+  return getRequest(`/api/article/${id}`)
 }
 
 export const getArticleList = (category, page, size) => {
-  return getRequest('/article', { category, page, size })
+  return getRequest('/api/article', { category, page, size })
 }
 
 export const getPublishList = (isPublished, page, size) => {
-  return getRequest('/article/publish', { isPublished, page, size })
+  return getRequest('/api/article/publish', { isPublished, page, size })
 }
 
 export const publishArticle = (id) => {
-  return putRequest('/article/publish', { id })
+  return putRequest('/api/article/publish', { id })
 }
 
 export const offlineArticle = (id) => {
-  return putRequest('/article/offline', { id })
+  return putRequest('/api/article/offline', { id })
 }
 
 export const getOfflineArticle = (page, size) => {
-  return getRequest('/article/offline', { page, size })
+  return getRequest('/api/article/offline', { page, size })
 }
