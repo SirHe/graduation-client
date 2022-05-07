@@ -1,0 +1,155 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3364244 */
+  src: url('iconfont.woff2?t=1651382327037') format('woff2'),
+       url('iconfont.woff?t=1651382327037') format('woff'),
+       url('iconfont.ttf?t=1651382327037') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-jia:before {
+  content: "\e602";
+}
+
+.icon-liulanliang:before {
+  content: "\e605";
+}
+
+.icon-31dianzan:before {
+  content: "\e601";
+}
+
+.icon-pinglun1:before {
+  content: "\e63a";
+}
+
+.icon-dianzan_kuai:before {
+  content: "\ec8c";
+}
+
+.icon-xingxing:before {
+  content: "\e60d";
+}
+
+.icon-liebiao:before {
+  content: "\e600";
+}
+
+.icon-denglu:before {
+  content: "\e621";
+}
+
+.icon-shoujihaoma:before {
+  content: "\e7d0";
+}
+
+.icon-yanzhengyanzhengma:before {
+  content: "\e624";
+}
+
+.icon-sousuo:before {
+  content: "\e693";
+}
+
+.icon-bianji:before {
+  content: "\e604";
+}
+
+.icon-baitian:before {
+  content: "\e64f";
+}
+
+.icon-zhuceyaoqing:before {
+  content: "\e60f";
+}
+
+.icon-quanping:before {
+  content: "\e642";
+}
+
+.icon-shanchu:before {
+  content: "\e8c1";
+}
+
+.icon-fanyiline:before {
+  content: "\e769";
+}
+
+.icon-youxiang:before {
+  content: "\e774";
+}
+
+.icon-yonghuguanli:before {
+  content: "\e70c";
+}
+
+.icon-fabuguanli:before {
+  content: "\e690";
+}
+
+.icon-qiapianmoshi_kuai:before {
+  content: "\e603";
+}
+
+.icon-tuichudenglu:before {
+  content: "\e61c";
+}
+
+.icon-mima:before {
+  content: "\e8b2";
+}
+
+.icon-quanxianguanli-:before {
+  content: "\e61d";
+}
+
+.icon-user:before {
+  content: "\e682";
+}
+
+.icon-yewan:before {
+  content: "\e667";
+}
+
+.icon-cancel-full-screen:before {
+  content: "\e688";
+}
+
+.icon-lanmuguanli:before {
+  content: "\e641";
+}
+
+.icon-zhediecaidan:before {
+  content: "\e65a";
+}
+
+.icon-zhankaicaidan:before {
+  content: "\e65b";
+}
+
+.icon-a-14xinwenguanli:before {
+  content: "\e653";
+}
+
+.icon-shenheguanli:before {
+  content: "\e61f";
+}
+
+.icon-jubao:before {
+  content: "\e652";
+}
+
+.icon-pinglun:before {
+  content: "\e611";
+}
+
+.icon-zhuanfa:before {
+  content: "\e63d";
+}
+
