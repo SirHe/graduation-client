@@ -1,5 +1,5 @@
-git reset --hard
-git pull
-npm i
-kill -2 `lsof -i:8080`
-npm run serve 
+# git reset --hard
+# git pull
+# yarn
+# kill -2 `lsof -i:8080`
+yarn serve 

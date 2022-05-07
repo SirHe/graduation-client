@@ -10,6 +10,9 @@ module.exports = {
   //     return args
   //   })
   // },
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  // assetsDir: 'assets',
+  // indexPath: 'index.html',
   devServer: {
     proxy: {
       '/api': {
