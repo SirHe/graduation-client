@@ -22,26 +22,22 @@
           </el-card>
         </div>
         <div class="card-box" v-else>
-          <el-row :gutter="16">
-            <el-col
-              class="card"
-              :span="6"
-              v-for="{ id, cover, title, date, summary, keywords } in list"
-              :key="id"
-            >
-              <el-card shadow="hover">
-                <card-item
-                  :id="id"
-                  :cover="cover"
-                  :title="title"
-                  :date="date"
-                  :brief="summary"
-                  :keywords="keywords"
-                  :boxHeight="220"
-                />
-              </el-card>
-            </el-col>
-          </el-row>
+          <el-card
+            shadow="hover"
+            class="card-item"
+            v-for="{ id, cover, title, date, summary, keywords } in list"
+            :key="id"
+          >
+            <card-item
+              :id="id"
+              :cover="cover"
+              :title="title"
+              :date="date"
+              :brief="summary"
+              :keywords="keywords"
+              :boxHeight="220"
+            />
+          </el-card>
         </div>
       </template>
     </article-list>
@@ -68,8 +64,34 @@ const onSearch = (formState) => {
   padding: 20px;
   background: #fff;
 
-  .pagination-box {
-    padding: 20px 0;
+  .card-box {
+    display: flex;
+    flex-wrap: wrap;
+    .card-item {
+      margin: 0 10px;
+      min-width: 260px;
+      max-width: 280px;
+      flex: 20%;
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .fame-box {
+    .card-box {
+      .card-item {
+        max-width: 360px;
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+  .fame-box {
+    .card-box {
+      .card-item {
+        max-width: 100%;
+      }
+    }
   }
 }
 </style>

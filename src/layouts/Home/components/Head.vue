@@ -12,7 +12,7 @@
               />
               <h2>智慧乡村</h2>
             </li>
-            <li>
+            <li class="img-box">
               <img
                 :src="require('../../../assets/images/header-logo.jpeg')"
                 alt=""
@@ -62,6 +62,37 @@
       </transition>
     </div>
   </div>
+  <div class="mobile-head">
+    <div class="title-box">
+      <img
+        :src="require('../../../assets/images/logo.png')"
+        alt=""
+        width="50"
+      />
+      <h2>智慧乡村</h2>
+    </div>
+    <i class="iconfont icon-liebiao icon-box" @click="isUnfold = true"></i>
+    <el-drawer v-model="isUnfold" :size="200">
+      <el-menu
+        class="menu-box"
+        @select="handleSelect"
+        :default-active="activeIndex"
+      >
+        <el-menu-item index="/law">法律法规</el-menu-item>
+        <el-sub-menu index="/agriculture">
+          <template #title>农业技术</template>
+          <el-menu-item index="/agriculture/plant">种植技术</el-menu-item>
+          <el-menu-item index="/agriculture/breed">养殖技术</el-menu-item>
+          <el-menu-item index="/agriculture/share">技术交流</el-menu-item>
+        </el-sub-menu>
+        <el-menu-item index="/bulletin">乡村公告</el-menu-item>
+        <el-menu-item index="/produce">特色农产品</el-menu-item>
+        <el-menu-item :index="isLogin ? '/manage' : '/login'">
+          {{ isLogin ? '个人中心' : '登录' }}
+        </el-menu-item>
+      </el-menu>
+    </el-drawer>
+  </div>
 </template>
 
 <script setup>
@@ -100,116 +131,148 @@ const handleUser = () => {
     router.push('/login')
   }
 }
+
+const isUnfold = ref(false)
+
+const handleSelect = (key) => {
+  if (key === '/login' || key === '/manage') {
+    router.push(key)
+    return
+  }
+  router.push(`/home${key}`)
+  if (isUnfold.value) {
+    isUnfold.value = false
+  }
+}
 </script>
 
 <style scoped lang="less">
 .outer-head-box {
   width: 100%;
   background: #fff;
-  .inner-head-box {
-    padding: 15px 0;
-    width: 1200px;
-    margin: auto;
-    // z-index: 999;
 
-    .transition-box {
-      height: 146px;
-    }
+  .transition-box {
+    height: 166px;
+  }
 
-    .head-box1 {
-      .box {
-        list-style: none;
+  .head-box1 {
+    .box {
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .title-box {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        min-width: 170px;
 
-        .title-box {
-          display: flex;
-          align-items: center;
-
-          h2 {
-            margin: 0;
-            font-size: 30px;
-          }
+        h2 {
+          margin: 0;
+          font-size: 30px;
         }
+      }
 
-        .icon-box {
-          display: flex;
-          align-items: center;
+      .img-box {
+        max-width: 670px;
+        flex: 1;
+        padding: 15px 20px;
+
+        img {
+          width: 100%;
+        }
+      }
+
+      .icon-box {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        i {
+          font-size: 30px;
+          padding: 0 10px;
           cursor: pointer;
-          i {
-            font-size: 30px;
-            padding: 0 10px;
-            cursor: pointer;
-          }
-          .user-box {
-            overflow: hidden;
-            box-sizing: content-box;
-            width: 50px;
+        }
+        .user-box {
+          overflow: hidden;
+          box-sizing: content-box;
+          width: 50px;
 
-            img {
-              margin: 10px;
-              width: calc(100% - 20px);
-            }
+          img {
+            margin: 10px;
+            width: calc(100% - 20px);
           }
         }
       }
     }
+  }
 
-    .outer-head-box2 {
-      position: fixed;
-      z-index: 999;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: #fff;
+  .outer-head-box2 {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
 
-      .head-box2 {
-        margin: auto;
-        width: 1200px;
+    .head-box2 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .title-box {
         display: flex;
-        // background: rgba(255, 255, 255, 0.3);
-        justify-content: space-between;
         align-items: center;
 
-        .title-box {
-          display: flex;
-          align-items: center;
+        h2 {
+          margin: 0;
+        }
+      }
 
-          h2 {
-            margin: 0;
-          }
+      ::v-deep .menu {
+        flex: 1;
+        margin: 0 20px;
+      }
+
+      .icon-box {
+        display: flex;
+        align-items: center;
+        i {
+          font-size: 25px;
+          padding: 0 10px;
+          cursor: pointer;
         }
 
-        ::v-deep .menu {
-          flex: 1;
-          margin: 0 20px;
-        }
+        .user-box {
+          overflow: hidden;
+          box-sizing: content-box;
+          width: 45px;
 
-        .icon-box {
-          display: flex;
-          align-items: center;
-          i {
-            font-size: 25px;
-            padding: 0 10px;
-            cursor: pointer;
-          }
-
-          .user-box {
-            overflow: hidden;
-            box-sizing: content-box;
-            width: 45px;
-
-            img {
-              margin: 10px;
-              width: calc(100% - 20px);
-            }
+          img {
+            margin: 10px;
+            width: calc(100% - 20px);
           }
         }
       }
     }
   }
 }
+
+.mobile-head {
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+
+  .title-box {
+    display: flex;
+    align-items: center;
+  }
+
+  .icon-box {
+    font-size: 25px;
+  }
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: transform 1.5s ease;
@@ -218,5 +281,34 @@ const handleUser = () => {
 .fade-enter-from,
 .fade-leave-to {
   transform: translateY(-50px);
+}
+
+@media screen and (min-width: 1200px) {
+  .inner-head-box {
+    width: 1200px;
+    margin: auto;
+  }
+  .head-box2 {
+    margin: auto;
+    width: 1200px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .inner-head-box {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .outer-head-box {
+    display: none;
+  }
+  .mobile-head {
+    display: flex;
+  }
+}
+
+::v-deep .el-menu {
+  border: 0;
+  text-align: center;
 }
 </style>

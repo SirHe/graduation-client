@@ -12,7 +12,7 @@ import Head from './components/Head.vue'
 
 <style scoped lang="less">
 .home-box {
-  min-width: 1200px;
+  // min-width: 1200px;
   background: #f4f5f5;
   // width: 1200px;
   margin: 0 auto;

@@ -56,6 +56,7 @@ const handleToDetail = (id) => {
 
 <style scoped lang="less">
 .card-item-box {
+  min-width: 120px;
   height: 320px;
   display: flex;
   flex-direction: column;
@@ -68,6 +69,7 @@ const handleToDetail = (id) => {
 
     img {
       width: 100%;
+      max-height: 180px;
 
       transition: transform 1s;
       &:hover {
@@ -91,6 +93,23 @@ const handleToDetail = (id) => {
     justify-content: space-between;
     padding: 10px;
     color: #999;
+  }
+}
+
+@media (max-width: 767px) {
+  .list-item-box {
+    .img-box {
+      width: 120px;
+    }
+    .title {
+      font-size: 16px;
+    }
+    .brief {
+      display: none;
+    }
+    .keywords {
+      display: none;
+    }
   }
 }
 </style>

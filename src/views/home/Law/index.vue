@@ -21,25 +21,21 @@
           </el-card>
         </div>
         <div class="card-box" v-else>
-          <el-row :gutter="16">
-            <el-col
-              class="card"
-              :span="6"
-              v-for="{ cover, title, date, summary, keywords, id } in list"
-              :key="id"
-            >
-              <el-card hoverable>
-                <card-item
-                  :id="id"
-                  :cover="cover"
-                  :title="title"
-                  :date="date"
-                  :brief="summary"
-                  :keywords="keywords"
-                />
-              </el-card>
-            </el-col>
-          </el-row>
+          <el-card
+            hoverable
+            class="card-item"
+            v-for="{ cover, title, date, summary, keywords, id } in list"
+            :key="id"
+          >
+            <card-item
+              :id="id"
+              :cover="cover"
+              :title="title"
+              :date="date"
+              :brief="summary"
+              :keywords="keywords"
+            />
+          </el-card>
         </div>
       </template>
     </article-list>
@@ -59,19 +55,41 @@ const isList = ref(true)
 
 <style scoped lang="less">
 .law-box {
-  width: 1200px;
-  margin: auto;
   z-index: 1;
   .card-box {
-    .card {
-      margin-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    .card-item {
+      margin: 0 10px;
+      min-width: 260px;
+      max-width: 280px;
+      flex: 20%;
     }
   }
+}
 
-  .el-pagination {
-    // background: #fff;
-    justify-content: right;
-    padding: 20px;
+@media screen and (min-width: 1200px) {
+  .law-box {
+    width: 1200px;
+    margin: auto;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .law-box {
+    .card-box {
+      .card-item {
+        max-width: 360px;
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+  .law-box {
+    .card-box {
+      .card-item {
+        max-width: 100%;
+      }
+    }
   }
 }
 </style>

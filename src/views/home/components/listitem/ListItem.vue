@@ -1,7 +1,7 @@
 <template>
   <div class="list-item-box">
     <div class="img-box" @click="handleToDetail(id)">
-      <img :src="cover" alt="" width="270" />
+      <img :src="cover" alt="" />
     </div>
     <div class="content">
       <div @click="handleToDetail(id)">
@@ -62,9 +62,12 @@ const handleToDetail = (id) => {
   .img-box {
     overflow: hidden;
     border-radius: 10px;
+    width: 270px;
     cursor: pointer;
 
     img {
+      width: 100%;
+      height: 100%;
       transition: transform 1s;
       &:hover {
         transform: scale(1.2);
@@ -90,6 +93,23 @@ const handleToDetail = (id) => {
       display: flex;
       justify-content: space-between;
       color: #999;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .list-item-box {
+    .img-box {
+      width: 120px;
+    }
+    .title {
+      font-size: 16px;
+    }
+    .brief {
+      display: none;
+    }
+    .keywords {
+      display: none;
     }
   }
 }

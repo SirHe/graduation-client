@@ -37,7 +37,7 @@
       <h2 class="title">特别报道</h2>
       <Swiper
         :modules="modules"
-        :slides-per-view="3"
+        :slides-per-view="viewNum"
         :space-between="50"
         autoplay
         @swiper="onSwiper"
@@ -95,14 +95,19 @@ import 'swiper/swiper.min.css'
 const modules = [Autoplay]
 
 const special = ref([])
-
+const viewNum = ref(1)
 onBeforeMount(async () => {
   const { data } = await getArticleList(7, 1, 100)
   special.value = data.map((item) => ({
     ...item,
     cover: STATIC_URL + item.cover
   }))
-  console.log(data)
+  const width = document.body.offsetWidth
+  if (width >= 1200) {
+    return (viewNum.value = 3)
+  } else if (width >= 768) {
+    viewNum.value = 2
+  }
 })
 const popularData = ref(null)
 const newData = ref(null)
@@ -112,8 +117,6 @@ const activeName = ref('1')
 
 <style scoped lang="less">
 .bulletin-box {
-  width: 1200px;
-  margin: auto;
   .box1 {
     display: flex;
     align-items: center;
@@ -184,6 +187,72 @@ const activeName = ref('1')
         img {
           width: 100%;
         }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .bulletin-box {
+    width: 1200px;
+    margin: auto;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .bulletin-box {
+    .box1 {
+      .carousel-box {
+        height: 360px;
+        .img-box {
+          img {
+            height: 360px;
+          }
+        }
+      }
+      .column-box {
+        height: 360px;
+      }
+    }
+
+    .box3 {
+      .body {
+        padding: 0;
+      }
+      .column {
+        display: none;
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+  .bulletin-box {
+    .box1 {
+      .carousel-box {
+        padding: 0;
+        height: 260px;
+        .img-box {
+          img {
+            height: 260px;
+          }
+        }
+      }
+      .column-box {
+        display: none;
+      }
+    }
+    .box3 {
+      .body {
+        padding: 0;
+
+        ::v-deep .el-tabs__header {
+          // padding: 0 20px;
+          .el-tabs__item {
+            font-size: 15px;
+          }
+        }
+      }
+      .column {
+        display: none;
       }
     }
   }

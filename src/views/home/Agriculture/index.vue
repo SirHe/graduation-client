@@ -11,25 +11,23 @@
       </el-radio-group>
       <article-list :pageSize="12" :category="category">
         <template #default="{ list }">
-          <el-row :gutter="16">
-            <el-col
-              class="card"
-              :span="6"
+          <div class="card-box">
+            <el-card
+              hoverable
+              class="card-item"
               v-for="{ cover, title, date, summary, keywords, id } in list"
               :key="id"
             >
-              <el-card hoverable>
-                <card-item
-                  :id="id"
-                  :cover="cover"
-                  :title="title"
-                  :date="date"
-                  :brief="summary"
-                  :keywords="keywords"
-                />
-              </el-card>
-            </el-col>
-          </el-row>
+              <card-item
+                :id="id"
+                :cover="cover"
+                :title="title"
+                :date="date"
+                :brief="summary"
+                :keywords="keywords"
+              />
+            </el-card>
+          </div>
         </template>
       </article-list>
     </main>
@@ -70,8 +68,6 @@ const handleSelect = (e) => {
 
 <style scoped lang="less">
 .agriculture-box {
-  width: 1200px;
-  margin: auto;
   .main-box {
     .condition-box {
       margin-bottom: 10px;
@@ -85,6 +81,42 @@ const handleSelect = (e) => {
 
   .el-tabs__item {
     font-size: 16px;
+  }
+}
+
+.card-box {
+  display: flex;
+  flex-wrap: wrap;
+  .card-item {
+    margin: 0 10px;
+    min-width: 260px;
+    max-width: 280px;
+    flex: 20%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .agriculture-box {
+    width: 1200px;
+    margin: auto;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .agriculture-box {
+    .card-box {
+      .card-item {
+        max-width: 360px;
+      }
+    }
+  }
+}
+@media (max-width: 767px) {
+  .agriculture-box {
+    .card-box {
+      .card-item {
+        max-width: 100%;
+      }
+    }
   }
 }
 </style>
