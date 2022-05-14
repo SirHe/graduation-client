@@ -60,3 +60,5 @@ export const offlineArticle = (id) => {
 export const getOfflineArticle = (page, size) => {
   return getRequest('/api/article/offline', { page, size })
 }
+
+export const submitAduit = (id) => {}

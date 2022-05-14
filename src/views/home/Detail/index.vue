@@ -109,6 +109,7 @@ const recommendList = ref([
 
   .main-box {
     flex: 1;
+    max-width: 820px;
 
     .article-box {
       padding: 35px;
@@ -134,9 +135,14 @@ const recommendList = ref([
       }
 
       .cover-img-box {
+        padding: 20px 0;
         img {
           width: 100%;
         }
+      }
+
+      ::v-deep .content-box img {
+        max-width: 100%;
       }
     }
   }

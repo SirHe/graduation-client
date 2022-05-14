@@ -56,7 +56,7 @@
       <div class="body">
         <el-tabs v-model="activeName" size="large">
           <el-tab-pane label="日常生活" name="1"><daily-life /></el-tab-pane>
-          <el-tab-pane label="出售信息" name="2"><Sale /></el-tab-pane>
+          <el-tab-pane label="乡村商业" name="2"><Sale /></el-tab-pane>
           <el-tab-pane label="乡村婚姻" name="3"><Marriage /></el-tab-pane>
           <el-tab-pane label="光荣榜" name="4"><fame-wall /></el-tab-pane>
         </el-tabs>
