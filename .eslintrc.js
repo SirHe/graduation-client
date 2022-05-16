@@ -16,6 +16,7 @@ module.exports = {
     'no-unused-vars': 'warn',
     'prefer-const': 'warn',
     'no-unused-expressions': 'off',
-    'vue/no-mutating-props': 'warn'
+    'vue/no-mutating-props': 'warn',
+    'vue/no-ref-as-operand': 'off'
   }
 }

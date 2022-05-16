@@ -1,23 +1,15 @@
 <template>
   <div class="panel-box">
-    <panel-item class="panel-item" :star="star.count" @click="handleToStar">
+    <panel-item class="panel-item" :star="star.count" @click="onStar">
       <i
         class="iconfont icon-dianzan_kuai"
         :style="{ color: star.isStar ? '#feb800' : '#000' }"
       />
     </panel-item>
-    <panel-item
-      class="panel-item"
-      :star="comment.count"
-      @click="handleToComment"
-    >
+    <panel-item class="panel-item" :star="comment.count" @click="onComment">
       <i class="iconfont icon-pinglun" />
     </panel-item>
-    <panel-item
-      class="panel-item"
-      :star="collect.count"
-      @click="handleToCollect"
-    >
+    <panel-item class="panel-item" :star="collect.count" @click="onCollect">
       <i
         class="iconfont icon-xingxing"
         :style="{ color: collect.isCollect ? '#feb800' : '#000' }"
@@ -26,42 +18,57 @@
     <panel-item class="panel-item">
       <i class="iconfont icon-zhuanfa" />
     </panel-item>
-    <panel-item class="panel-item" @click="handleToReport">
+    <panel-item class="panel-item" @click="onReport">
       <i class="iconfont icon-jubao" />
     </panel-item>
   </div>
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref, defineProps, defineEmits, watch } from 'vue'
+import { addArticleStar, deleteArticleStar } from '../../../../../api/article'
 import PanelItem from './PanelItem.vue'
 
 const emits = defineEmits(['showComment'])
+const props = defineProps({
+  article: {
+    type: Object,
+    required: true
+  }
+})
 
 // 点赞
 const star = ref({
   isStar: false,
-  count: 999
+  count: 0
 })
-const handleToStar = () => {
-  if (star.value.isStar) {
-    star.value = {
-      isStar: false,
-      count: star.value.count - 1
-    }
-  } else {
-    star.value = {
-      isStar: true,
-      count: star.value.count + 1
-    }
+watch(
+  () => props.article?.star,
+  (value) => {
+    const { isStar, count } = value
+    star.value.count = count
+    star.value.isStar = isStar
   }
+)
+
+const onStar = () => {
+  const { isStar } = star.value
+  const { id } = props.article
+  if (isStar) {
+    star.value.count--
+    deleteArticleStar(id)
+  } else {
+    star.value.count++
+    addArticleStar(id)
+  }
+  star.value.isStar = !isStar
 }
 
 // 评论
 const comment = ref({
   count: 18
 })
-const handleToComment = () => {
+const onComment = () => {
   emits('showComment')
 }
 
@@ -70,7 +77,7 @@ const collect = ref({
   isCollect: false,
   count: 100
 })
-const handleToCollect = () => {
+const onCollect = () => {
   if (collect.value.isCollect) {
     collect.value = {
       isCollect: false,
@@ -85,7 +92,7 @@ const handleToCollect = () => {
 }
 
 // 举报
-const handleToReport = () => {}
+const onReport = () => {}
 </script>
 
 <style scoped lang="less">

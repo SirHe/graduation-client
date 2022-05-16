@@ -11,9 +11,8 @@
       <div class="comment">
         <Reply
           v-if="commentArticle.isShow"
-          v-model:content="commentArticle.content"
-          @reply="onReply"
-          @close="toggleCommentArticleIsShow"
+          :visible="true"
+          :parentId="articleId"
         />
         <div class="comment-item" v-else @click="toggleCommentArticleIsShow">
           {{ commentArticle.content || commentArticle.placeholder }}
@@ -21,39 +20,101 @@
       </div>
     </div>
 
-    <div>
-      <h3>热门评论</h3>
+    <div class="comments">
       <comment-item
-        :author="commentList.author"
-        :receiver="commentList.receiver"
-        :comment="commentList.content"
-        :star="commentList.star"
-        :replyCount="commentList.reply_list.length"
-      />
+        class="comment-item"
+        v-for="{
+          id,
+          author_avatar,
+          author_nickname,
+          recipient_nickname,
+          comment,
+          create_time,
+          star,
+          children,
+          author_id
+        } in comments.list"
+        :key="id"
+        :avatar="author_avatar"
+        :authorId="author_id"
+        :authorName="author_nickname"
+        :recipientName="recipient_nickname"
+        :comment="comment"
+        :time="create_time"
+        :star="star"
+        :parentId="id"
+      >
+        <div class="child-comment-list" v-if="children.length > 0">
+          <comment-item
+            class="comment-item"
+            v-for="{
+              id,
+              author_avatar,
+              author_nickname,
+              recipient_nickname,
+              comment,
+              create_time,
+              star,
+              parent_id,
+              author_id
+            } in children"
+            :key="id"
+            :avatar="author_avatar"
+            :authorId="author_id"
+            :authorName="author_nickname"
+            :recipientName="recipient_nickname"
+            :comment="comment"
+            :time="create_time"
+            :star="star"
+            :parentId="parent_id"
+          />
+        </div>
+      </comment-item>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineProps, onBeforeMount } from 'vue'
+import { getCommentList } from '../../../../../api/article'
+import { STATIC_URL } from '../../../../../constant'
+import { convertDate } from '../../../../../utils'
 import CommentItem from './CommentItem.vue'
-import Reply from '../Reply.vue'
+import Reply from './Reply.vue'
 
-const commentList = ref({
-  author: {
-    id: 123,
-    name: '北鸟',
-    avatar:
-      'https://p6-passport.byteacctimg.com/img/user-avatar/970f66bc181fc5e76f7f9d11ec3f2ea9~300x300.image'
-  },
-  content: '定义数组请用const',
-  star: 6,
-  receiver: {
-    id: 456,
-    name: '无问',
-    comment: '“掘金老哥一个比一个严谨[看]”'
-  },
-  reply_list: []
+const props = defineProps({
+  articleId: {
+    type: String,
+    required: true
+  }
+})
+
+const comments = ref({
+  page: 1,
+  size: 5,
+  list: [],
+  total: 0
+})
+
+onBeforeMount(async () => {
+  const { data, total } = await getCommentList(
+    props.articleId,
+    comments.value.page,
+    comments.value.size
+  )
+  comments.value.list = data.map((item) => ({
+    ...item,
+    author_avatar: STATIC_URL + item.author_avatar,
+    create_time: convertDate(item.create_time),
+    star: parseInt(item.star),
+    children: item.children.map((item) => ({
+      ...item,
+      author_avatar: STATIC_URL + item.author_avatar,
+      create_time: convertDate(item.create_time),
+      star: parseInt(item.star)
+    }))
+  }))
+  comments.value.total = total
 })
 
 const commentArticle = ref({
@@ -102,6 +163,33 @@ const onReply = () => {}
         font-size: 14px;
         color: #909399;
         cursor: pointer;
+      }
+    }
+  }
+
+  .comments {
+    .comment-item:not(:last-child) {
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .child-comment-list {
+      padding: 0 10px;
+      margin: 15px 0;
+      background: #f2f3f5;
+      position: relative;
+      border-radius: 5px;
+
+      &::after {
+        position: absolute;
+        content: '';
+        width: 20px;
+        height: 20px;
+        background: #f2f3f5;
+        top: 0px;
+        left: 0px;
+        margin-top: -10px;
+        margin-left: 20px;
+        transform: rotate(45deg);
       }
     }
   }

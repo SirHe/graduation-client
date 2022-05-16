@@ -8,10 +8,10 @@
         <div class="author-box">
           <div style="display: flex; align-items: center">
             <div class="img-box">
-              <img :src="article?.author.avatar" alt="" />
+              <img :src="article?.author?.avatar" alt="" />
             </div>
             <ul>
-              <li>{{ article?.author.name }}</li>
+              <li>{{ article?.author?.name }}</li>
               <li>{{ article?.date }}· 阅读 {{ article?.pageviews }}</li>
             </ul>
           </div>
@@ -22,9 +22,9 @@
         </div>
         <div class="content-box" v-html="article?.content"></div>
       </div>
-      <Comment />
+      <Comment :articleId="article?.id" />
 
-      <Panel @showComment="handleToShowComment" />
+      <Panel @showComment="handleToShowComment" :article="article" />
     </main>
     <aside class="aside-box">
       <Author :author="article?.author" />
@@ -37,7 +37,7 @@
 import { ref, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import { STATIC_URL } from '../../../constant'
-import { getArticleDetail } from '../../../api/article'
+import { getArticleDetail, addArticleStar } from '../../../api/article'
 import Comment from './components/comment'
 import Panel from './components/panel'
 import Author from './components/Author.vue'
@@ -45,27 +45,9 @@ import Related from './components/related'
 
 const route = useRoute()
 
-// const article = ref({
-//   id: '123456789',
-//   title: '大部分前端都可能搞错的基础问题？（forEach会不会修改原数组）',
-//   author: {
-//     id: '',
-//     name: '云木',
-//     brief: '本人很懒，什么也没写！',
-//     avatar:
-//       'https://p9-passport.byteacctimg.com/img/user-avatar/82607f8bc7f5189137154b439deb31de~300x300.image'
-//     // star: 999,
-//     // pageviews: 9999
-//   },
-//   cover:
-//     'https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fc62b8a734854b89a2924864bd9c5acf~tplv-k3u1fbpfcp-zoom-crop-mark:1304:1304:1304:734.awebp?',
-//   content: '<p>hhh-test</p>',
-//   date: '2022年04月17日 22:28',
-//   star: 123,
-//   pageviews: 12345
-// })
-
-const article = ref(null)
+const article = ref({
+  id: route.params.id
+})
 onBeforeMount(async () => {
   const { id } = route.params
   const { data } = await getArticleDetail(id)
@@ -79,7 +61,6 @@ onBeforeMount(async () => {
     },
     cover: STATIC_URL + data.cover
   }
-  console.log(data)
 })
 
 // 显示评论区
@@ -102,8 +83,6 @@ const recommendList = ref([
 
 <style scoped lang="less">
 .detail-box {
-  max-width: 1140px;
-  margin: 20px auto;
   position: relative;
   display: flex;
 
@@ -155,6 +134,39 @@ const recommendList = ref([
       margin-top: 20px;
       padding: 20px;
       background: #fff;
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .detail-box {
+    max-width: 1020px;
+    margin: 20px auto;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .detail-box {
+    margin: 0 20px;
+    .aside-box {
+      display: none;
+    }
+  }
+}
+@media (max-width: 767px) {
+  .detail-box {
+    max-width: 100%;
+    .main-box {
+      width: 100%;
+      .article-box {
+        padding: 20px 5px;
+      }
+      .comment-box {
+        padding: 20px 5px;
+      }
+    }
+
+    .aside-box {
+      display: none;
     }
   }
 }

@@ -1,193 +1,132 @@
 <template>
   <div class="comment-item-box">
-    <div
-      class="img-box"
-      :style="{
-        width: size === 'common' ? '50px' : '25px',
-        height: size === 'common' ? '50px' : '25px'
-      }"
-    >
-      <img :src="author.avatar" alt="" />
+    <div class="avatar-box">
+      <img :src="avatar" alt="" />
     </div>
-
-    <div class="comment-main">
-      <div class="user-box">
-        <h3>{{ author.name }}</h3>
-
-        <div class="rely-box" v-if="receiver">
-          <div class="descriptor">回复</div>
-          <h3>{{ receiver.name }}</h3>
-        </div>
-      </div>
-
-      <div class="content">{{ comment }}</div>
-      <el-tag size="large" type="info" class="raw-content" v-if="receiver">
-        {{ receiver.comment }}
-      </el-tag>
-
-      <ul class="action-box">
-        <li
-          class="action-item"
-          @click="handleToStar"
-          :class="starObj.isStar ? 'is-active' : ''"
-        >
-          <i class="iconfont icon-dianzan_kuai" v-if="starObj.isStar" />
-          <i class="iconfont icon-31dianzan" v-else />
-          {{ star }}
-        </li>
-        <li
-          class="action-item"
-          @click="toggleIsReply"
-          :class="replyObj.isReply ? 'is-active' : ''"
-        >
-          <div v-if="replyObj.isReply">
-            <i class="iconfont icon-pinglun1" />
-            取消回复
-          </div>
-          <div v-else>
-            <i class="iconfont icon-pinglun" />
-            {{ replyCount > 0 ? replyCount : '' }}
-          </div>
-        </li>
-      </ul>
-
+    <ul class="detail-box">
+      <h4 class="title-box">{{ authorName }}</h4>
+      <li class="comment-box">
+        {{ recipientName ? '回复' : '' }}
+        <h4 class="name-box">{{ recipientName ? recipientName : '' }}</h4>
+        {{ recipientName ? '：' : '' }}
+        {{ comment }}
+      </li>
+      <li class="bottom-box">
+        <div class="time-box">{{ time }}</div>
+        <ul class="tools-box">
+          <i class="iconfont icon-jubao"></i>
+          <i
+            class="iconfont icon-pinglun"
+            @click="onComment"
+            :class="{ 'is-active': state.isSelectComment }"
+          />
+          <i class="iconfont icon-31dianzan"></i>
+        </ul>
+      </li>
       <Reply
-        v-if="replyObj.isReply"
-        v-model:content="replyObj.content"
-        @reply="onReply"
-        @close="toggleIsReply"
+        v-model:visible="state.isSelectComment"
+        :authorName="authorName"
+        :authorId="authorId"
+        :parentId="parentId"
       />
-    </div>
+      <slot />
+    </ul>
   </div>
 </template>
 
 <script setup>
 import { ref, defineProps } from 'vue'
-import Reply from '../Reply.vue'
+import { article } from '../../../../../constant'
+import Reply from './Reply.vue'
 
 defineProps({
-  author: {
-    type: Object,
+  avatar: {
+    type: String,
     required: true
-    // {
-    //   id:'',
-    //   avatar:'',
-    //   name:'',
-    // }
   },
-  receiver: {
-    type: Object
-    // {
-    //   id:'',
-    //   name:'',
-    //   comment:'',
-    // }
+  authorId: {
+    type: String
+  },
+  authorName: {
+    type: String,
+    required: true
+  },
+  recipientName: {
+    type: String
   },
   comment: {
     type: String,
     required: true
   },
+  time: {
+    type: String,
+    required: true
+  },
   star: {
     type: Number,
-    default() {
-      return 0
-    }
+    required: true
   },
-  replyCount: {
-    type: Number,
-    default() {
-      return 0
-    }
-  },
-  size: {
-    type: String,
-    validator(value) {
-      return ['common', 'small'].includes(value)
-    },
-    default() {
-      return 'common'
-    }
+  parentId: {
+    type: String
   }
 })
 
-// 评论点赞
-const starObj = ref({
-  isStar: false
+const state = ref({
+  isSelectComment: false
 })
-const handleToStar = () => {
-  starObj.value = {
-    ...starObj.value,
-    isStar: !starObj.value.isStar
-  }
-}
-
-// 评论回复
-const replyObj = ref({
-  isReply: false,
-  content: ''
-})
-const toggleIsReply = () => {
-  replyObj.value.isReply = !replyObj.value.isReply
-}
-const onReply = () => {
-  replyObj.value.isReply = false
+const onComment = () => {
+  state.value.isSelectComment = true
 }
 </script>
 
 <style scoped lang="less">
 .comment-item-box {
   display: flex;
+  color: #666;
+  padding: 15px 0;
 
-  .img-box {
+  .avatar-box {
+    flex: 0 0 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+
     img {
       width: 100%;
       height: 100%;
-      border-radius: 50%;
     }
   }
 
-  .comment-main {
+  h4 {
+    color: #333;
+  }
+
+  .detail-box {
     padding-left: 20px;
     flex: 1;
-    & > * {
-      margin-top: 8px;
+
+    .title-box {
+      line-height: 25px;
     }
 
-    .user-box {
-      display: flex;
-      line-height: 26px;
+    .comment-box {
+      line-height: 45px;
 
-      .rely-box {
-        display: flex;
-
-        .descriptor {
-          color: #8a919f;
-          padding: 0 12px;
-        }
+      .name-box {
+        display: inline-block;
       }
     }
 
-    .content {
-      line-height: 26px;
-      color: #515767;
-    }
-
-    .raw-content {
-      width: 100%;
-      justify-content: left;
-    }
-
-    .action-box {
+    .bottom-box {
       display: flex;
-      color: #8a919f;
-      margin-top: 8px;
-      font-size: 12px;
-      line-height: 20px;
-      user-select: none;
+      justify-content: space-between;
 
-      .action-item {
-        margin-right: 15px;
-        cursor: pointer;
+      .tools-box {
+        display: flex;
+        i {
+          margin: 0 20px;
+          cursor: pointer;
+        }
       }
     }
   }
@@ -195,5 +134,17 @@ const onReply = () => {
 
 .is-active {
   color: #feb800;
+}
+
+@media (max-width: 767px) {
+  .comment-item-box {
+    .detail-box {
+      .bottom-box {
+        .time-box {
+          display: none;
+        }
+      }
+    }
+  }
 }
 </style>

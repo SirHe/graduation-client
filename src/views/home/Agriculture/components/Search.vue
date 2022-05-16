@@ -86,4 +86,10 @@ const querySearchAsync = async (key, fn) => {
     display: inline;
   }
 }
+
+@media (max-width: 767px) {
+  .search-box {
+    width: 80%;
+  }
+}
 </style>

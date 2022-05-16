@@ -78,7 +78,8 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, watch } from 'vue'
+import { throttle } from 'lodash'
 import DailyLife from './components/dailylife'
 import Marriage from './components/marriage'
 import Sale from './components/sale'
@@ -102,13 +103,25 @@ onBeforeMount(async () => {
     ...item,
     cover: STATIC_URL + item.cover
   }))
-  const width = document.body.offsetWidth
-  if (width >= 1200) {
-    return (viewNum.value = 3)
-  } else if (width >= 768) {
-    viewNum.value = 2
-  }
+  viewNum.value = getViewNum()
 })
+
+window.addEventListener(
+  'resize',
+  throttle(() => {
+    viewNum.value = getViewNum()
+  }, 200)
+)
+const getViewNum = () => {
+  const width = document.body.clientWidth
+  if (width >= 1200) {
+    return 3
+  } else if (width >= 768) {
+    return 2
+  }
+  return 1
+}
+
 const popularData = ref(null)
 const newData = ref(null)
 

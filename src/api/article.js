@@ -62,3 +62,23 @@ export const getOfflineArticle = (page, size) => {
 }
 
 export const submitAduit = (id) => {}
+
+export const addArticleStar = (id) => {
+  return postRequest('/api/article/star', { id })
+}
+
+export const deleteArticleStar = (id) => {
+  return deleteRequest('/api/article/star', { id })
+}
+
+export const getArticleStar = (id) => {
+  return getRequest('/api/article/star', { id })
+}
+
+export const getCommentList = (id, page, size) => {
+  return getRequest('/api/article/comment', { id, page, size })
+}
+
+export const addComment = ({ recipient, comment, parentId }) => {
+  return postRequest('/api/article/comment', { recipient, comment, parentId })
+}
