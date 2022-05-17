@@ -23,15 +23,15 @@
         <span>用户管理</span>
       </template>
       <el-menu-item index="/user-manage/list">用户列表</el-menu-item>
+      <el-menu-item index="/user-manage/apply">申请列表</el-menu-item>
     </el-sub-menu>
 
-    <el-sub-menu index="right-manage">
+    <el-sub-menu index="report-manage">
       <template #title>
-        <el-icon><i class="iconfont icon-quanxianguanli-" /></el-icon>
-        <span>权限管理</span>
+        <el-icon><i class="iconfont icon-jubao" /></el-icon>
+        <span>举报管理</span>
       </template>
-      <el-menu-item index="/right-manage/role">角色列表</el-menu-item>
-      <el-menu-item index="/right-manage/right">权限列表</el-menu-item>
+      <el-menu-item index="/report-manage/list">举报列表</el-menu-item>
     </el-sub-menu>
 
     <el-sub-menu index="news-manage">

@@ -24,16 +24,16 @@ export default [
     name: 'UserManageList',
     component: () => import('../views/manage/user-manage/List')
   },
+  {
+    path: 'user-manage/apply',
+    name: 'UserManageApply',
+    component: () => import('../views/manage/user-manage/Apply.vue')
+  },
   // 权限管理
   {
-    path: 'right-manage/role',
-    name: 'RightManageRole',
-    component: () => import('../views/manage/right-manage/Role.vue')
-  },
-  {
-    path: 'right-manage/right',
-    name: 'RightManageRight',
-    component: () => import('../views/manage/right-manage/Right.vue')
+    path: 'report-manage/list',
+    name: 'ReportManageList',
+    component: () => import('../views/manage/report-manage/List.vue')
   },
   // 新闻管理
   {
