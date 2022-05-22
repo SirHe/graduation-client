@@ -4,15 +4,12 @@ function resolve(url) {
 }
 
 module.exports = {
-  // chainWebpack: (config) => {
-  //   config.plugin('html').tap((args) => {
-  //     args[0].title = '大学生心理测评'
-  //     return args
-  //   })
-  // },
-  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
-  // assetsDir: 'assets',
-  // indexPath: 'index.html',
+  chainWebpack: (config) => {
+    config.plugin('html').tap((args) => {
+      args[0].title = '智慧乡村'
+      return args
+    })
+  },
   devServer: {
     proxy: {
       '/api': {
