@@ -35,7 +35,7 @@ jobs:
         with:
           cmd: build # will run `yarn build` command
       - name: 上传到远程服务器
-        uses: JantHsueh/upload-file-action@master
+        uses: zhenyuWang/Upload-File-Action@v1.0.1
         with:
           username: 'root'
           server: '47.110.224.195'
