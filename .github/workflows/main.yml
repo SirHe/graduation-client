@@ -34,14 +34,11 @@ jobs:
         uses: borales/actions-yarn@v2.3.0
         with:
           cmd: build # will run `yarn build` command
-      - name: 上传到远程服务器
-        uses: zhenyuWang/Upload-File-Action@v1.0.1
+      - name: Copy folder content recursively to remote
+        uses: garygrossgarten/github-action-scp@release
         with:
-          username: 'root'
-          server: '47.110.224.195'
-          port: '22'
-          ssh_private_key: ${{ secrets.ACCESS_TOKEN}}
-          # 要上传文件所在目录
-          local_path: './dist/*'
-          # 远程服务器目标路径
-          target_path: '/mydata/nginx/html'
+          local: './dist'
+          remote: '/mydata/nginx/html'
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.PASSWORD }}
