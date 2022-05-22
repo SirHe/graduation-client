@@ -2,7 +2,7 @@
   <el-config-provider :locale="locale">
     <router-view />
   </el-config-provider>
-  <Statement v-model:visible="visible" title="温馨提示" />
+  <!-- <Statement v-model:visible="visible" title="温馨提示" /> -->
 </template>
 
 <script setup>
