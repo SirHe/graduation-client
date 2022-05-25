@@ -1,0 +1,158 @@
+[
+  {
+    "name": "UserCenter",
+    "path": "/manage/user-center",
+    "meta": {
+      "icon": "icon-denglu",
+      "title": "个人中心"
+    },
+    "children": [
+      {
+        "name": "UserCenterMe",
+        "path": "/manage/user-center/me",
+        "component": "/manage/user-center/Me",
+        "meta": {
+          "title": "个人主页"
+        }
+      },
+      {
+        "name": "UserCenterSettings",
+        "path": "/manage/user-center/settings",
+        "component": "/manage/user-center/Settings",
+        "meta": {
+          "title": "个人设置"
+        }
+      }
+    ]
+  },
+  {
+    "name": "UserManage",
+    "path": "/manage/user-manage",
+    "meta": {
+      "icon": "icon-yonghuguanli",
+      "title": "用户管理"
+    },
+    "children": [
+      {
+        "name": "UserManageList",
+        "path": "/manage/user-manage/list",
+        "component": "/manage/user-manage/List",
+        "meta": {
+          "title": "用户列表"
+        }
+      },
+      {
+        "name": "UserManageApply",
+        "path": "/manage/user-manage/apply",
+        "component": "/manage/user-manage/Apply.vue",
+        "meta": {
+          "title": "申请列表"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ReportManage",
+    "path": "/manage/report-manage",
+    "meta": {
+      "icon": "icon-jubao",
+      "title": "举报管理"
+    },
+    "children": [
+      {
+        "name": "ReportManageList",
+        "path": "/manage/report-manage/list",
+        "component": "/manage/report-manage/List.vue",
+        "meta": {
+          "title": "举报列表"
+        }
+      }
+    ]
+  },
+  {
+    "name": "newsManage",
+    "path": "/manage/news-manage",
+    "meta": {
+      "icon": "icon-a-14xinwenguanli",
+      "title": "新闻管理"
+    },
+    "children": [
+      {
+        "name": "newsManageEdit",
+        "path": "/manage/news-manage/edit",
+        "component": "/manage/news-manage/Edit",
+        "meta": {
+          "title": "撰写新闻"
+        }
+      },
+      {
+        "name": "newsManageDraft",
+        "path": "/manage/news-manage/draft",
+        "component": "/manage/news-manage/Draft.vue",
+        "meta": {
+          "title": "草稿箱"
+        }
+      }
+    ]
+  },
+  {
+    "name": "auditManage",
+    "path": "/manage/audit-manage",
+    "meta": {
+      "icon": "icon-shenheguanli",
+      "title": "审核管理"
+    },
+    "children": [
+      {
+        "name": "auditManageAudit",
+        "path": "/manage/audit-manage/audit",
+        "component": "/manage/audit-manage/Audit",
+        "meta": {
+          "title": "撰写新闻"
+        }
+      },
+      {
+        "name": "auditManageList",
+        "path": "/manage/audit-manage/list",
+        "component": "/manage/audit-manage/List.vue",
+        "meta": {
+          "title": "审核列表"
+        }
+      }
+    ]
+  },
+  {
+    "name": "publishManage",
+    "path": "/manage/publish-manage",
+    "meta": {
+      "icon": "icon-fabuguanli",
+      "title": "发布管理"
+    },
+    "children": [
+      {
+        "name": "publishManageUnpublished",
+        "path": "/manage/publish-manage/unpublished",
+        "component": "/manage/publish-manage/Unpublished.vue",
+        "meta": {
+          "title": "待发布"
+        }
+      },
+      {
+        "name": "publishManagePublished",
+        "path": "/manage/publish-manage/published",
+        "component": "/manage/publish-manage/Published.vue",
+        "meta": {
+          "title": "已发布"
+        }
+      },
+      {
+        "name": "publishManageOffline",
+        "path": "/manage/publish-manage/offline",
+        "component": "/manage/publish-manage/Offline.vue",
+        "meta": {
+          "title": "已下线"
+        }
+      }
+    ]
+  }
+]

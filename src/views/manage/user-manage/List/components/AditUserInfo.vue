@@ -1,10 +1,5 @@
 <template>
-  <el-dialog
-    append-to-body
-    v-model="visible"
-    :title="info.title"
-    @close="onClose"
-  >
+  <el-dialog append-to-body v-model="visible" :title="title" @close="onClose">
     <el-form
       ref="formRef"
       :model="formState"
@@ -58,7 +53,7 @@
       </el-form-item>
       <el-form-item label="用户状态">
         <el-switch
-          v-model="formState.state"
+          v-model="formState.enabled"
           inline-prompt
           active-text="正常"
           inactive-text="禁用"
@@ -66,7 +61,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">添加</el-button>
+        <el-button type="primary" @click="onSubmit">{{ okText }}</el-button>
         <el-button @click="onReset">重置</el-button>
       </el-form-item>
     </el-form>
@@ -74,12 +69,16 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref, defineProps, defineEmits, watch } from 'vue'
 import { isEmail, isPhone } from '../../../../../utils/validate'
+import { addUser, alterUserInfo } from '../../../../../api/user'
 
 const props = defineProps({
   visible: {
     type: Boolean
+  },
+  title: {
+    type: String
   },
   info: {
     type: Object,
@@ -96,6 +95,15 @@ const props = defineProps({
         state: ''
       }
     }
+  },
+  okText: {
+    type: String,
+    default() {
+      return '添加'
+    }
+  },
+  type: {
+    type: String
   }
 })
 
@@ -147,13 +155,31 @@ const rules = {
 }
 
 const formState = ref(props.info)
+watch(
+  () => props.info,
+  (value) => {
+    formState.value = props.info
+  }
+)
 const formRef = ref()
 const onSubmit = async () => {
   await formRef.value.validate((valid, fields) => {
     if (valid) {
-      console.log('submit!')
+      const formData = new FormData()
+      const keys = Object.keys(formState.value)
+      keys.forEach((key) => {
+        if (key !== 'avatar') {
+          formData.append(key, formState.value[key])
+        }
+      })
+      if (props.type === 'add') {
+        addUser(formData)
+      }
+
+      onReset()
+      onClose()
     } else {
-      console.log('error submit!', fields)
+      console.log('error submit!')
     }
   })
 }

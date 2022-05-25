@@ -1,7 +1,8 @@
 import md5 from 'md5'
-import { setItem, getItem, removeAllItem } from '../../utils/storage'
+import menus from '../../data/menu.json'
+import { addRouters } from '../../router'
+import { setItem, getItem } from '../../utils/storage'
 import { TOKEN } from '../../constant'
-import router, { resetRouter } from '@/router'
 import { setTimeStamp } from '../../utils/auth'
 import { login } from '../../api/user'
 
@@ -9,7 +10,8 @@ export default {
   namespaced: true,
   state: {
     token: getItem(TOKEN) || '',
-    userInfo: {}
+    userInfo: {},
+    menus: getItem('menus') || []
   },
   mutations: {
     setToken(state, token) {
@@ -18,6 +20,21 @@ export default {
     },
     setUserInfo(state, userInfo) {
       state.userInfo = userInfo
+    },
+    setMenus(state, arr) {
+      state.menus = menus.filter((menu) => {
+        menu.children = menu.children.filter(({ path }) => arr.includes(path))
+        return menu.children.length > 0
+      })
+      addRouters('Manage', state.menus)
+      setItem('menus', state.menus)
+      // console.log(this)
+      // this.commit('user/refresh')
+    },
+    refresh(state) {
+      // 动态添加路由表
+      addRouters('Manage', state.menus)
+      // 动态控制左侧菜单栏
     }
   },
   actions: {
@@ -28,7 +45,8 @@ export default {
           username,
           password: md5(password)
         })
-          .then(({ data: { token, tokenHead } }) => {
+          .then(({ data: { token, tokenHead, menus } }) => {
+            commit('setMenus', menus)
             commit('setToken', `${tokenHead} ${token}`)
             // 保存登录时间
             setTimeStamp()
@@ -38,13 +56,8 @@ export default {
             reject(err)
           })
       })
-      // commit('setToken', '123')
     }
-    // async getUserInfo(context) {
-    //   const res = await getUserInfo()
-    //   this.commit('user/setUserInfo', res)
-    //   return res
-    // },
+
     // logout() {
     //   // resetRouter()
     //   this.commit('user/setToken', '')

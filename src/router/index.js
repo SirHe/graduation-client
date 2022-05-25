@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeLayout from '../layouts/Home'
-import ManageChildren from './manage'
+import { setItem } from '../utils/storage'
+// import ManageChildren from './manage'
 
 const routes = [
   {
@@ -42,8 +43,8 @@ const routes = [
   {
     path: '/manage',
     name: 'Manage',
-    component: () => import('../layouts/Manage'),
-    children: ManageChildren
+    component: () => import('../layouts/Manage')
+    // children: ManageChildren
   },
   {
     path: '/login',
@@ -65,5 +66,20 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+export const addRouters = (name, menus) => {
+  const routers = menus.reduce(
+    (pre, router) => [...pre, ...router.children],
+    []
+  )
+  routers.forEach(({ path, component, name: childName }) => {
+    router.addRoute(name, {
+      path,
+      name: childName,
+      component: () => import('../views' + component)
+    })
+  })
+  setItem('routerNum', router.getRoutes().length)
+}
 
 export default router

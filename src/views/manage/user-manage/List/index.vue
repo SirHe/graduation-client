@@ -3,7 +3,7 @@
     <el-button type="primary" class="add-user-btn" @click="addUser">
       添加用户
     </el-button>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table :data="userList" border style="width: 100%">
       <el-table-column prop="username" label="用户">
         <template #default="{ row: { username, avatar } }">
           <div style="display: flex; align-items: center">
@@ -13,11 +13,11 @@
         </template>
       </el-table-column>
       <el-table-column prop="nickname" label="昵称"> </el-table-column>
-      <el-table-column prop="role" label="用户角色"> </el-table-column>
-      <el-table-column prop="state" label="用户状态">
+      <el-table-column prop="phone" label="电话"> </el-table-column>
+      <el-table-column prop="enabled" label="用户状态">
         <template #default="{ row }">
           <el-switch
-            v-model="row.state"
+            v-model="row.enabled"
             inline-prompt
             active-text="正常"
             inactive-text="禁用"
@@ -35,42 +35,44 @@
       </el-table-column>
     </el-table>
   </div>
-  <adit-user-info v-model:visible="userInfo.isVisible" :info="userInfo" />
+  <adit-user-info
+    v-model:visible="userInfo.isVisible"
+    :info="userInfo.info"
+    :title="userInfo.title"
+    :okText="userInfo.okText"
+  />
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { ElMessageBox } from 'element-plus'
+import { getUserList, deleteUser, toggleUserState } from '../../../../api/user'
+import { STATIC_URL } from '../../../../constant'
 import AditUserInfo from './components/AditUserInfo.vue'
 
 const userInfo = ref({
   isVisible: false,
   title: '添加用户',
-  nickname: '',
-  avatar: '',
-  brief: '',
-  phone: '',
-  email: '',
-  address: '',
-  username: '',
-  password: '',
-  state: ''
+  info: {}
 })
 const addUser = () => {
-  userInfo.value.isVisible = true
+  userInfo.value = {
+    title: '添加用户',
+    okText: '提交',
+    isVisible: true,
+    type: 'add'
+  }
 }
 
-const tableData = ref([
-  {
-    id: 123,
-    username: '王小虎',
-    nickname: '小虎',
-    avatar:
-      'https://img.wxcha.com/m00/e6/94/721ed594b4a0ffe84d9900fd8671e9e3.jpg',
-    role: '',
-    state: true
-  }
-])
+const userList = ref([])
+onBeforeMount(async () => {
+  const { data } = await getUserList(1, 1000)
+  userList.value = data.map((user) => ({
+    ...user,
+    avatar: STATIC_URL + user.avatar,
+    enabled: user.enabled === 1
+  }))
+})
 
 const onDelete = async (id, username) => {
   try {
@@ -84,17 +86,25 @@ const onDelete = async (id, username) => {
         dangerouslyUseHTMLString: true
       }
     )
-
     // 确定删除
-    tableData.value = tableData.value.filter((item) => item.id !== id)
+    userList.value = userList.value.filter((item) => item.id !== id)
+    deleteUser(id)
   } catch (err) {}
 }
 
 const onChangeUserState = (state, id) => {
-  console.log(state, id)
+  toggleUserState(id, state)
 }
 
-const onEdit = (info) => {}
+const onEdit = (info) => {
+  userInfo.value = {
+    title: '编辑用户',
+    okText: '提交',
+    isVisible: true,
+    info,
+    type: 'alter'
+  }
+}
 </script>
 
 <style scoped lang="less">

@@ -74,8 +74,12 @@ const router = useRouter()
 const onSubmit = () => {
   ruleForm.value.validate(async (valid) => {
     if (valid) {
-      await store.dispatch('user/login', formState.value)
-      router.push({ path: '/manage/user-center/me' })
+      try {
+        await store.dispatch('user/login', formState.value)
+        router.push('/')
+      } catch (err) {
+        console.log(err)
+      }
     }
   })
 }

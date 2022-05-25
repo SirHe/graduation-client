@@ -2,6 +2,7 @@
 const getters = {
   token: (state) => state.user.token,
   language: (state) => state.app.language,
-  tagsViewList: (state) => state.app.tagsViewList
+  tagsViewList: (state) => state.app.tagsViewList,
+  menus: (state) => state.user.menus
 }
 export default getters

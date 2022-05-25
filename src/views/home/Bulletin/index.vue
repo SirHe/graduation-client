@@ -85,7 +85,6 @@ import Marriage from './components/marriage'
 import Sale from './components/sale'
 import FameWall from './components/famewall'
 import CardItem from './components/CardItem.vue'
-import cards from '../../../data/card.json'
 import { STATIC_URL } from '../../../constant'
 import { getArticleList } from '../../../api/article'
 

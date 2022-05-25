@@ -8,65 +8,30 @@
     @select="handleToSelect"
     unique-opened
   >
-    <el-sub-menu index="user-center">
+    <el-sub-menu
+      v-for="{ path, meta: { icon, title }, children } in menus"
+      :index="path"
+      :key="path"
+    >
       <template #title>
-        <el-icon><i class="iconfont icon-denglu" /></el-icon>
-        <span>个人中心</span>
+        <el-icon><i class="iconfont" :class="icon" /></el-icon>
+        <span>{{ title }}</span>
       </template>
-      <el-menu-item index="/user-center/me">个人主页</el-menu-item>
-      <el-menu-item index="/user-center/settings">个人设置</el-menu-item>
-    </el-sub-menu>
-
-    <el-sub-menu index="user-manage">
-      <template #title>
-        <el-icon><i class="iconfont icon-yonghuguanli" /></el-icon>
-        <span>用户管理</span>
-      </template>
-      <el-menu-item index="/user-manage/list">用户列表</el-menu-item>
-      <el-menu-item index="/user-manage/apply">申请列表</el-menu-item>
-    </el-sub-menu>
-
-    <el-sub-menu index="report-manage">
-      <template #title>
-        <el-icon><i class="iconfont icon-jubao" /></el-icon>
-        <span>举报管理</span>
-      </template>
-      <el-menu-item index="/report-manage/list">举报列表</el-menu-item>
-    </el-sub-menu>
-
-    <el-sub-menu index="news-manage">
-      <template #title>
-        <el-icon><i class="iconfont icon-a-14xinwenguanli" /></el-icon>
-        <span>新闻管理</span>
-      </template>
-      <el-menu-item index="/news-manage/edit">撰写新闻</el-menu-item>
-      <el-menu-item index="/news-manage/draft">草稿箱</el-menu-item>
-    </el-sub-menu>
-
-    <el-sub-menu index="audit-manage">
-      <template #title>
-        <el-icon><i class="iconfont icon-shenheguanli" /></el-icon>
-        <span>审核管理</span>
-      </template>
-      <el-menu-item index="/audit-manage/audit">审核新闻</el-menu-item>
-      <el-menu-item index="/audit-manage/list">审核列表</el-menu-item>
-    </el-sub-menu>
-
-    <el-sub-menu index="publish-manage">
-      <template #title>
-        <el-icon><i class="iconfont icon-fabuguanli" /></el-icon>
-        <span>发布管理</span>
-      </template>
-      <el-menu-item index="/publish-manage/unpublished">待发布</el-menu-item>
-      <el-menu-item index="/publish-manage/published">已发布</el-menu-item>
-      <el-menu-item index="/publish-manage/offline">已下线</el-menu-item>
+      <el-menu-item
+        v-for="{ path, meta: { title } } in children"
+        :index="path"
+        :key="path"
+      >
+        {{ title }}
+      </el-menu-item>
     </el-sub-menu>
   </el-menu>
 </template>
 
 <script setup>
-import { ref, onBeforeMount, defineProps } from 'vue'
+import { ref, onBeforeMount, defineProps, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 
 defineProps({
   isCollapse: {
@@ -76,17 +41,18 @@ defineProps({
 
 const router = useRouter()
 const route = useRoute()
+const store = useStore()
+const menus = computed(() => store.getters.menus)
 
 const defaultActive = ref('')
 
 onBeforeMount(() => {
   // 根据路由展开侧边栏
-  const path = route.fullPath.replace('/manage', '')
-  defaultActive.value = path
+  defaultActive.value = route.fullPath
 })
 
 const handleToSelect = (key) => {
-  router.push(`/manage${key}`)
+  router.push(key)
 }
 </script>
 
