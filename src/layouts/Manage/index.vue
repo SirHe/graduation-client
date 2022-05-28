@@ -24,7 +24,7 @@
             @click="handleToFold"
             style="margin-right: 15px; cursor: pointer"
           />
-          <!-- <bread-crumb /> -->
+          <bread-crumb />
         </div>
 
         <div class="content-box">
