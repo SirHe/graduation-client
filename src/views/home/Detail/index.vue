@@ -31,10 +31,16 @@
       <Related :articleId="article?.id" style="margin-top: 20px" />
     </aside>
   </div>
+  <Report
+    v-model:visible="report.visible"
+    :reported="report.reported"
+    :title="report.title"
+    :type="report.type"
+  />
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, provide } from 'vue'
 import { useRoute } from 'vue-router'
 import { STATIC_URL } from '../../../constant'
 import { getArticleDetail, addArticleStar } from '../../../api/article'
@@ -42,6 +48,7 @@ import Comment from './components/comment'
 import Panel from './components/panel'
 import Author from './components/Author.vue'
 import Related from './components/related'
+import Report from './components/Report.vue'
 
 const route = useRoute()
 
@@ -73,12 +80,21 @@ const handleToShowComment = () => {
   })
 }
 
-const recommendList = ref([
-  {
-    id: 123,
-    title: 'test1'
+const report = ref({
+  visible: false,
+  reported: null,
+  title: '',
+  type: 0
+})
+
+provide('report', (id, name, type) => {
+  report.value = {
+    visible: true,
+    reported: id,
+    title: name,
+    type
   }
-])
+})
 </script>
 
 <style scoped lang="less">

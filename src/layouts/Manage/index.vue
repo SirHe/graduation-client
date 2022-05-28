@@ -2,7 +2,15 @@
   <el-container class="manage-box">
     <el-header class="header-box">
       <h2 class="title">智慧乡村信息服务平台</h2>
-      <img :src="require('../../assets/images/user.webp')" alt="" width="35" />
+      <el-popover placement="bottom" trigger="hover">
+        <template #reference>
+          <el-avatar shape="square" :size="35" :src="avatar" />
+        </template>
+        <div class="popover-box">
+          <el-button type="primary" @click="onCenter"> 首页 </el-button>
+          <el-button type="warning" @click="onLoginout"> 退出登录 </el-button>
+        </div>
+      </el-popover>
     </el-header>
     <el-container>
       <el-aside class="aside-box">
@@ -14,9 +22,9 @@
             class="iconfont icon-box"
             :class="isFold ? 'icon-zhankaicaidan' : 'icon-zhediecaidan'"
             @click="handleToFold"
-            style="margin-right: 15px"
+            style="margin-right: 15px; cursor: pointer"
           />
-          <bread-crumb />
+          <!-- <bread-crumb /> -->
         </div>
 
         <div class="content-box">
@@ -32,15 +40,30 @@
 </template>
 
 <script setup>
-import { watch, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { watch, ref, computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { STATIC_URL } from '../../constant'
 import SiderMenu from './components/SiderMenu.vue'
 import BreadCrumb from './components/BreadCrumb.vue'
 // 监听路由变化，添加path到tags中
 
+const router = useRouter()
+const store = useStore()
+
+const avatar = computed(() => STATIC_URL + store.getters.userInfo.avatar)
+
 let isFold = ref(false)
 const handleToFold = () => {
   isFold.value = !isFold.value
+}
+
+const onCenter = () => {
+  router.push('/')
+}
+const onLoginout = () => {
+  store.commit('user/loginout')
+  router.replace('/login')
 }
 </script>
 
@@ -88,6 +111,17 @@ const handleToFold = () => {
       min-height: calc(100vh - 60px - 85px);
       background-color: #fff;
     }
+  }
+}
+
+.popover-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+  button {
+    width: 80%;
+    margin: 8px;
   }
 }
 

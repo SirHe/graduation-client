@@ -40,6 +40,7 @@
     :info="userInfo.info"
     :title="userInfo.title"
     :okText="userInfo.okText"
+    :type="userInfo.type"
   />
 </template>
 

@@ -3,13 +3,13 @@
     <Search @onSearch="onSearch" />
     <ConditionalFilter />
     <main class="main-box">
-      <el-radio-group v-model="filter.orderBy" class="condition-box">
+      <el-radio-group v-model="filter.order" class="condition-box">
         <el-radio-button label="综合排序">综合排序</el-radio-button>
-        <el-radio-button label="观看最多">观看最多</el-radio-button>
+        <el-radio-button label="浏览最多">浏览最多</el-radio-button>
         <el-radio-button label="最新发布">最新发布</el-radio-button>
-        <el-radio-button label="收藏最多">收藏最多</el-radio-button>
+        <el-radio-button label="最受欢迎">最受欢迎</el-radio-button>
       </el-radio-group>
-      <article-list :pageSize="12" :category="category">
+      <article-list :pageSize="12" :category="category" ref="articleListRef">
         <template #default="{ list }">
           <div class="card-box">
             <el-card
@@ -37,6 +37,8 @@
 <script setup>
 import { ref, computed, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
+import { searchArticle } from '../../../api/article'
+import { orderMap } from '../../../constant/article'
 
 import Search from './components/Search.vue'
 import ConditionalFilter from './components/ConditionalFilter.vue'
@@ -44,8 +46,14 @@ import CardItem from '../components/listitem/CardItem.vue'
 import ArticleList from '../components/ArticleList'
 const route = useRoute()
 
-const onSearch = (key) => {
-  console.log(key, 123)
+const articleListRef = ref(null)
+const onSearch = async (key) => {
+  filter.value.key = key
+  const order = Object.keys(orderMap).map((key) => ({ [orderMap[key]]: key }))[
+    filter.value.order
+  ]
+  const { data } = await searchArticle(key, order)
+  articleListRef.value.setList(data)
 }
 
 const categoryMap = {
@@ -54,9 +62,11 @@ const categoryMap = {
   share: 6
 }
 const category = computed(() => categoryMap[route.params.id])
-const filter = {
-  orderBy: ''
-}
+const filter = ref({
+  key: '',
+  order: '综合排序',
+  isTips: false
+})
 
 const handleSelect = (e) => {
   const tagName = e.target.tagName.toLowerCase()

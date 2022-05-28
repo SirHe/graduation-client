@@ -35,6 +35,7 @@
           author_id
         } in comments.list"
         :key="id"
+        :id="id"
         :avatar="author_avatar"
         :authorId="author_id"
         :authorName="author_nickname"
@@ -59,6 +60,7 @@
               author_id
             } in children"
             :key="id"
+            :id="id"
             :avatar="author_avatar"
             :authorId="author_id"
             :authorName="author_nickname"

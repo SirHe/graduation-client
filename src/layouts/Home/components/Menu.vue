@@ -3,7 +3,7 @@
     class="menu-box"
     mode="horizontal"
     @select="handleSelect"
-    :default-active="activeIndex"
+    :defaultActive="activeIndex"
   >
     <my-menu-item index="/law">法律法规</my-menu-item>
     <my-sub-menu index="/agriculture">

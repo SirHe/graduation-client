@@ -22,11 +22,19 @@
               <i class="iconfont icon-sousuo"></i>
               <ScreenFull />
               <div class="user-box" @click="handleUser">
-                <img
-                  :src="require('../../../assets/images/user.jpeg')"
-                  alt=""
-                  v-if="isLogin"
-                />
+                <el-popover placement="bottom" trigger="hover" v-if="isLogin">
+                  <template #reference>
+                    <el-avatar shape="square" :size="50" :src="avatar" />
+                  </template>
+                  <div class="popover-box">
+                    <el-button type="primary" @click="onCenter">
+                      个人中心
+                    </el-button>
+                    <el-button type="warning" @click="onLoginout">
+                      退出登录
+                    </el-button>
+                  </div>
+                </el-popover>
                 <i class="iconfont icon-user" v-else></i>
               </div>
             </li>
@@ -50,11 +58,20 @@
               <i class="iconfont icon-sousuo"></i>
               <!-- <ScreenFull /> -->
               <div class="user-box" @click="handleUser">
-                <img
-                  :src="require('../../../assets/images/user.jpeg')"
-                  alt=""
-                  v-if="isLogin"
-                /><i class="iconfont icon-user" v-else></i>
+                <el-popover placement="bottom" trigger="hover" v-if="isLogin">
+                  <template #reference>
+                    <el-avatar shape="square" :size="35" :src="avatar" />
+                  </template>
+                  <div class="popover-box">
+                    <el-button type="primary" @click="onCenter">
+                      个人中心
+                    </el-button>
+                    <el-button type="warning" @click="onLoginout">
+                      退出登录
+                    </el-button>
+                  </div>
+                </el-popover>
+                <i class="iconfont icon-user" v-else></i>
               </div>
             </div>
           </div>
@@ -96,15 +113,18 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue'
+import { ref, onBeforeMount, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import _ from 'lodash'
+import { STATIC_URL } from '../../../constant'
 import Menu from './Menu.vue'
 import ScreenFull from '../../../components/ScreenFull.vue'
 
 const store = useStore()
 const router = useRouter()
+
+const avatar = computed(() => STATIC_URL + store.getters.userInfo.avatar)
 
 // 菜单切换
 const isTop = ref(false)
@@ -143,6 +163,14 @@ const handleSelect = (key) => {
   if (isUnfold.value) {
     isUnfold.value = false
   }
+}
+
+const onCenter = () => {
+  router.push('/manage')
+}
+const onLoginout = () => {
+  store.commit('user/loginout')
+  router.replace('/login')
 }
 </script>
 
@@ -310,5 +338,16 @@ const handleSelect = (key) => {
 ::v-deep .el-menu {
   border: 0;
   text-align: center;
+}
+
+.popover-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+  button {
+    width: 80%;
+    margin: 8px;
+  }
 }
 </style>

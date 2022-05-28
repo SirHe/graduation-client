@@ -3,12 +3,13 @@
   <Pagination
     :size="article.size"
     :total="article.total"
-    @onChange="setArticle"
+    @onChange="isAuto ? setArticle : setList"
   />
+  <!-- @onChange="() => (isAuto ? setArticle() : setList())" -->
 </template>
 
 <script setup>
-import { ref, defineProps, watch, onBeforeMount } from 'vue'
+import { ref, defineProps, watch, onBeforeMount, defineExpose } from 'vue'
 import { getArticleList } from '../../../../api/article'
 import { STATIC_URL } from '../../../../constant'
 import { convertDate } from '../../../../utils'
@@ -53,6 +54,19 @@ const setArticle = async (page = article.value.page) => {
   }))
   article.value.total = total
 }
+
+const isAuto = ref(true)
+const setList = (list, total) => {
+  isAuto.value = false
+  article.value.list = list.map((item) => ({
+    ...item,
+    cover: STATIC_URL + item.cover,
+    keywords: item.keywords.split(','),
+    date: convertDate(item.create_time)
+  }))
+  article.value.total = total
+}
+defineExpose({ setList })
 
 onBeforeMount(setArticle)
 </script>

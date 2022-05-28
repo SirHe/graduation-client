@@ -1,3 +1,4 @@
+import md5 from 'md5'
 import {
   getRequest,
   postRequest,
@@ -6,7 +7,7 @@ import {
 } from '../utils/request'
 
 export const login = ({ username, password }) => {
-  return postRequest('/api/user/login', { username, password })
+  return postRequest('/api/user/login', { username, password: md5(password) })
 }
 
 export const setInfo = (data) => {
@@ -22,6 +23,9 @@ export const getInfo = () => {
 }
 
 export const addUser = (userInfo) => {
+  // 加密传输
+  const password = userInfo.get('password')
+  userInfo.set('password', md5(password))
   return postRequest('/api/user/add', userInfo, {
     headers: {
       'Content-Type': 'multipart/form-data'

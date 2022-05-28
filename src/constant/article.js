@@ -25,3 +25,15 @@ export const auditStateColorMap = {
   2: 'success',
   3: 'danger'
 }
+
+export const orderMap = {
+  0: '综合排序',
+  1: '浏览最多',
+  2: '最新发布',
+  3: '最受欢迎'
+}
+
+export const tableNameMap = {
+  0: 'article',
+  1: 'article_comment'
+}

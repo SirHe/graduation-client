@@ -14,7 +14,7 @@
       <li class="bottom-box">
         <div class="time-box">{{ time }}</div>
         <ul class="tools-box">
-          <i class="iconfont icon-jubao"></i>
+          <i class="iconfont icon-jubao" @click="onReport"></i>
           <i
             class="iconfont icon-pinglun"
             @click="onComment"
@@ -35,11 +35,11 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, inject } from 'vue'
 import { article } from '../../../../../constant'
 import Reply from './Reply.vue'
 
-defineProps({
+const props = defineProps({
   avatar: {
     type: String,
     required: true
@@ -68,6 +68,10 @@ defineProps({
   },
   parentId: {
     type: String
+  },
+  id: {
+    type: String,
+    required: true
   }
 })
 
@@ -76,6 +80,11 @@ const state = ref({
 })
 const onComment = () => {
   state.value.isSelectComment = true
+}
+
+const report = inject('report')
+const onReport = () => {
+  report(props.id, props.authorName, 1)
 }
 </script>
 

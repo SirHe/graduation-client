@@ -39,6 +39,18 @@
       <el-form-item label="昵称">
         <el-input v-model="formState.nickname" />
       </el-form-item>
+      <el-form-item label="昵称">
+        <el-select v-model="formState.role">
+          <el-option
+            v-for="[value, label] in Object.entries(roleMap)"
+            :key="value"
+            :label="label"
+            :value="value"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="个人简介">
         <el-input type="textarea" v-model="formState.brief" />
       </el-form-item>
@@ -72,6 +84,7 @@
 import { ref, defineProps, defineEmits, watch } from 'vue'
 import { isEmail, isPhone } from '../../../../../utils/validate'
 import { addUser, alterUserInfo } from '../../../../../api/user'
+import { roleMap } from '../../../../../constant/user'
 
 const props = defineProps({
   visible: {
@@ -87,6 +100,7 @@ const props = defineProps({
         avatar: '',
         username: '',
         password: '',
+        role: '',
         nickname: '',
         brief: '',
         phone: '',
@@ -163,6 +177,7 @@ watch(
 )
 const formRef = ref()
 const onSubmit = async () => {
+  console.log(props.type)
   await formRef.value.validate((valid, fields) => {
     if (valid) {
       const formData = new FormData()

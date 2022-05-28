@@ -19,7 +19,7 @@ router.beforeEach((to, from, next) => {
     if (whiteList.includes(to.path)) {
       next()
     } else {
-      next('/login')
+      // next('/login')
       // next() // 测试阶段暂时全部放行
     }
   }

@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, watch } from 'vue'
+import { ref, defineProps, defineEmits, watch, inject } from 'vue'
 import { addArticleStar, deleteArticleStar } from '../../../../../api/article'
 import PanelItem from './PanelItem.vue'
 
@@ -92,7 +92,10 @@ const onCollect = () => {
 }
 
 // 举报
-const onReport = () => {}
+const report = inject('report')
+const onReport = () => {
+  report(props.article.id, props.article.title, 0)
+}
 </script>
 
 <style scoped lang="less">

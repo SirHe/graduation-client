@@ -5,7 +5,7 @@
       v-model="key"
       :fetch-suggestions="querySearchAsync"
       placeholder="请输入关键字"
-      @select="onSearch"
+      @select="onSearchTips"
       class="input-box"
     >
       <template #default="{ item }">
@@ -21,49 +21,22 @@
 
 <script setup>
 import { ref, defineEmits } from 'vue'
+import { searchArticle } from '../../../../api/article'
 
 const emits = defineEmits(['onSearch'])
 const key = ref('')
-const onSearch = (key) => {
-  emits('onSearch', key)
+const keywords = ref('')
+const onSearchTips = ({ value }) => {
+  keywords.value = value
+}
+const onSearch = () => {
+  emits('onSearch', keywords.value)
 }
 
-// 测试数据
-const TestdataSource = [
-  {
-    id: 1,
-    value: '1'
-  },
-  {
-    id: 2,
-    value: '12'
-  },
-  {
-    id: 3,
-    value: '123'
-  },
-  {
-    id: 4,
-    value: '1234'
-  },
-  {
-    id: 5,
-    value: '12345'
-  }
-]
-const loadingData = () =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(TestdataSource)
-    }, 500)
-  })
-
-const querySearchAsync = async (key, fn) => {
-  if (!key) return fn([])
-  let data = await loadingData()
-  data = data.filter(({ value }) => value.indexOf(key) >= 0)
-  // data = Array.isArray(data) ? data : []
-  fn(data)
+const querySearchAsync = async (key) => {
+  if (!key) return []
+  const { data } = await searchArticle(key, 0, true)
+  return data.map(({ id, title }) => ({ value: title, id }))
 }
 </script>
 

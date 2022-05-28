@@ -82,3 +82,19 @@ export const getCommentList = (id, page, size) => {
 export const addComment = ({ recipient, comment, parentId }) => {
   return postRequest('/api/article/comment', { recipient, comment, parentId })
 }
+
+export const searchArticle = (key, order = 0, isTips = false) => {
+  return getRequest('/api/article/search', { key, isTips, order })
+}
+
+export const addReport = (reported, reason, tableName) => {
+  return postRequest('/api/article/report', { reported, reason, tableName })
+}
+
+export const getReportList = (page, size) => {
+  return getRequest('/api/article/report', { page, size })
+}
+
+export const deleteReport = (id) => {
+  return deleteRequest('/api/article/report', { id })
+}
