@@ -9,8 +9,8 @@ export const TAGS_VIEW = 'tagsView' // tags
 export const MENU = 'menus'
 export const USER_INFO = 'userInfo'
 
-// export const STATIC_URL = 'http://47.110.224.195:8888/'
-export const STATIC_URL = 'http://localhost:8888/'
+export const STATIC_URL = 'http://47.110.224.195:8888/'
+// export const STATIC_URL = 'http://localhost:8888/'
 
 // export * as categoryMap from './articleCategory'
 
