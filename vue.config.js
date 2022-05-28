@@ -11,15 +11,15 @@ module.exports = {
     })
   },
   devServer: {
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://localhost:8888',
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       '^/api': '/'
-    //     }
-    //   }
-    // },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8888',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '/'
+        }
+      }
+    },
     disableHostCheck: true
   }
 }

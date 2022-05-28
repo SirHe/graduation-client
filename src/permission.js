@@ -20,7 +20,7 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       // next('/login')
-      // next() // 测试阶段暂时全部放行
+      next() // 测试阶段暂时全部放行
     }
   }
 })
