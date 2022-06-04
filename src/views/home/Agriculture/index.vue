@@ -53,7 +53,7 @@ const onSearch = async (key) => {
     filter.value.order
   ]
   const { data } = await searchArticle(key, order)
-  articleListRef.value.setList(data)
+  articleListRef.value.audit(data)
 }
 
 const categoryMap = {

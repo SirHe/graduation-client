@@ -45,6 +45,10 @@ export const getArticleList = (category, page, size) => {
   return getRequest('/api/article', { category, page, size })
 }
 
+export const getArticleSpecialList = (type) => {
+  return getRequest('/api/article/special', { type })
+}
+
 export const getPublishList = (isPublished, page, size) => {
   return getRequest('/api/article/publish', { isPublished, page, size })
 }

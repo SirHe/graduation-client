@@ -17,6 +17,9 @@ import './styles/variable.less'
 // 引入权限控制
 import './permission'
 
+import $ from 'jquery'
+window.jQuery = window.$ = $
+
 const app = createApp(App)
 installElementUI(app)
 

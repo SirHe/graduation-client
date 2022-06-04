@@ -59,3 +59,18 @@ export const alterUserInfo = (id, userInfo) => {
     }
   )
 }
+
+export const sendCode = (phone, email, type) => {
+  return postRequest('/api/user/sendCode', { email, phone, type })
+}
+
+export const checkCode = (code) => {
+  return postRequest('api/user/checkCode', { code })
+}
+
+export const addPassword = (password1, password2) => {
+  return postRequest('api/user/addPassword', {
+    password1: md5(password1),
+    password2: md5(password2)
+  })
+}

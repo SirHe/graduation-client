@@ -27,7 +27,23 @@ const routes = [
       {
         path: 'produce',
         name: 'Produce',
-        component: () => import('../views/home/Produce')
+        component: () => import('../layouts/Home/Produce'),
+        children: [
+          {
+            path: 'home',
+            name: 'ProduceHome',
+            component: () => import('../views/home/Produce/Home')
+          },
+          {
+            path: 'detail/:id',
+            name: 'ProduceDetail',
+            component: () => import('../views/home/Produce/Detail')
+          },
+          {
+            path: '',
+            redirect: { name: 'ProduceHome' }
+          }
+        ]
       },
       {
         path: 'detail/:id',

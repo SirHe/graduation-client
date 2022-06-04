@@ -21,7 +21,7 @@
             <li class="icon-box">
               <i class="iconfont icon-sousuo"></i>
               <ScreenFull />
-              <div class="user-box" @click="handleUser">
+              <div class="user-box">
                 <el-popover placement="bottom" trigger="hover" v-if="isLogin">
                   <template #reference>
                     <el-avatar shape="square" :size="50" :src="avatar" />
@@ -35,7 +35,19 @@
                     </el-button>
                   </div>
                 </el-popover>
-                <i class="iconfont icon-user" v-else></i>
+                <el-popover placement="bottom" trigger="hover" v-else>
+                  <template #reference>
+                    <i class="iconfont icon-user"></i>
+                  </template>
+                  <div class="popover-box">
+                    <el-button type="primary" @click="onRegister">
+                      注册
+                    </el-button>
+                    <el-button type="warning" @click="onLogin">
+                      登录
+                    </el-button>
+                  </div>
+                </el-popover>
               </div>
             </li>
           </ul>
@@ -71,7 +83,19 @@
                     </el-button>
                   </div>
                 </el-popover>
-                <i class="iconfont icon-user" v-else></i>
+                <el-popover placement="bottom" trigger="hover" v-else>
+                  <template #reference>
+                    <i class="iconfont icon-user"></i>
+                  </template>
+                  <div class="popover-box">
+                    <el-button type="primary" @click="onRegister">
+                      注册
+                    </el-button>
+                    <el-button type="warning" @click="onLogin">
+                      登录
+                    </el-button>
+                  </div>
+                </el-popover>
               </div>
             </div>
           </div>
@@ -142,15 +166,6 @@ window.addEventListener(
 
 // 用户头像切换
 const isLogin = ref(!!store.getters.token)
-const handleUser = () => {
-  if (isLogin.value) {
-    // 如果登录，去到个人中心
-    router.push('/manage')
-  } else {
-    // 没登录，去登录界面
-    router.push('/login')
-  }
-}
 
 const isUnfold = ref(false)
 
@@ -171,6 +186,14 @@ const onCenter = () => {
 const onLoginout = () => {
   store.commit('user/loginout')
   router.replace('/login')
+}
+
+const onRegister = () => {
+  router.push('/register')
+}
+
+const onLogin = () => {
+  router.push('/login')
 }
 </script>
 

@@ -3,30 +3,45 @@
     <div class="box1">
       <div class="carousel-box">
         <el-carousel indicator-position="outside" height="520px">
-          <el-carousel-item v-for="i in 4" :key="i" class="img-box">
-            <img
-              :src="
-                require(`../../../assets/images/bulletin/carousel/${i}.jpeg`)
-              "
-              alt=""
-            />
+          <el-carousel-item
+            v-for="{ cover, id, title } in carousel"
+            :key="id"
+            class="img-box"
+          >
+            <img :src="cover" :alt="title" @click="onDetail(id)" />
           </el-carousel-item>
         </el-carousel>
       </div>
       <div class="column-box">
         <div class="newest">
           <el-button type="primary" style="width: 100%">最新资讯</el-button>
-          <my-list bordered :data-source="newData">
+          <my-list bordered :data-source="newList">
             <template #renderItem="{ item }">
-              <my-list-item>{{ item }}</my-list-item>
+              <my-list-item>
+                <div class="sider-item-box" @click="onDetail(item.id)">
+                  <h5 class="title">{{ item.title }}</h5>
+                  <ul class="bottom">
+                    <li class="view">浏览量：{{ item.pageviews }}</li>
+                    <li class="time">{{ item.create_time }}</li>
+                  </ul>
+                </div>
+              </my-list-item>
             </template>
           </my-list>
         </div>
         <div class="popular">
           <el-button type="danger" style="width: 100%">最受欢迎</el-button>
-          <my-list bordered :data-source="popularData">
+          <my-list bordered :data-source="popularList">
             <template #renderItem="{ item }">
-              <my-list-item>{{ item }}</my-list-item>
+              <my-list-item>
+                <div class="sider-item-box" @click="onDetail(item.id)">
+                  <h5 class="title">{{ item.title }}</h5>
+                  <ul class="bottom">
+                    <li class="view">浏览量：{{ item.pageviews }}</li>
+                    <li class="time">{{ item.create_time }}</li>
+                  </ul>
+                </div>
+              </my-list-item>
             </template>
           </my-list>
         </div>
@@ -86,7 +101,8 @@ import Sale from './components/sale'
 import FameWall from './components/famewall'
 import CardItem from './components/CardItem.vue'
 import { STATIC_URL } from '../../../constant'
-import { getArticleList } from '../../../api/article'
+import { convertDate } from '../../../utils'
+import { getArticleList, getArticleSpecialList } from '../../../api/article'
 
 // 引入swiper
 import { Swiper, SwiperSlide } from 'swiper/vue/swiper-vue'
@@ -95,14 +111,37 @@ import 'swiper/swiper.min.css'
 const modules = [Autoplay]
 
 const special = ref([])
+const carousel = ref([])
+const newList = ref([])
+const popularList = ref([])
 const viewNum = ref(1)
 onBeforeMount(async () => {
-  const { data } = await getArticleList(7, 1, 100)
-  special.value = data.map((item) => ({
+  const { data: data1 } = await getArticleList(7, 1, 100)
+  special.value = data1.map((item) => ({
     ...item,
     cover: STATIC_URL + item.cover
   }))
   viewNum.value = getViewNum()
+
+  const { data: data2 } = await getArticleSpecialList('carousel')
+  carousel.value = data2.map((item) => ({
+    ...item,
+    cover: STATIC_URL + item.cover
+  }))
+
+  const { data: data3 } = await getArticleSpecialList('new')
+  newList.value = data3.map((item) => ({
+    ...item,
+    cover: STATIC_URL + item.cover,
+    create_time: convertDate(item.create_time)
+  }))
+
+  const { data: data4 } = await getArticleSpecialList('popular')
+  popularList.value = data4.map((item) => ({
+    ...item,
+    cover: STATIC_URL + item.cover,
+    create_time: convertDate(item.create_time)
+  }))
 })
 
 window.addEventListener(
@@ -121,14 +160,16 @@ const getViewNum = () => {
   return 1
 }
 
-const popularData = ref(null)
-const newData = ref(null)
-
 const activeName = ref('1')
+
+const onDetail = (id) => {
+  window.open(`/home/detail/${id}`, '_blank')
+}
 </script>
 
 <style scoped lang="less">
 .bulletin-box {
+  padding-top: 15px;
   .box1 {
     display: flex;
     align-items: center;
@@ -138,6 +179,7 @@ const activeName = ref('1')
       padding-right: 20px;
 
       .img-box {
+        cursor: pointer;
         img {
           width: 100%;
           height: 520px;
@@ -162,6 +204,28 @@ const activeName = ref('1')
         background-color: #fff;
         border-radius: 15px;
         overflow: hidden;
+      }
+
+      .sider-item-box {
+        padding: 5px;
+        border: 1px solid #f5f6f5;
+        border-radius: 5px;
+        .title {
+        }
+
+        .bottom {
+          display: flex;
+          justify-content: space-between;
+          padding: 3px 0;
+          font-size: 12px;
+          color: #abb0ba;
+          cursor: pointer;
+          .view {
+          }
+
+          .time {
+          }
+        }
       }
     }
   }

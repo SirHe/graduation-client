@@ -1,11 +1,7 @@
 <template>
   <slot :list="article.list" />
-  <Pagination
-    :size="article.size"
-    :total="article.total"
-    @onChange="isAuto ? setArticle : setList"
-  />
-  <!-- @onChange="() => (isAuto ? setArticle() : setList())" -->
+  <Pagination :size="article.size" :total="article.total" @change="onChange" />
+  <!-- @onChange="() => (isAuto ? setArticle() : audit())" -->
 </template>
 
 <script setup>
@@ -44,6 +40,7 @@ watch(
 )
 
 const setArticle = async (page = article.value.page) => {
+  console.log(page)
   const { category, size } = article.value
   const { data, total } = await getArticleList(category, page, size)
   article.value.list = data.map((item) => ({
@@ -54,10 +51,12 @@ const setArticle = async (page = article.value.page) => {
   }))
   article.value.total = total
 }
+const onChange = ref(setArticle)
 
 const isAuto = ref(true)
-const setList = (list, total) => {
+const audit = (list, total) => {
   isAuto.value = false
+  onChange.value = audit
   article.value.list = list.map((item) => ({
     ...item,
     cover: STATIC_URL + item.cover,
@@ -66,7 +65,7 @@ const setList = (list, total) => {
   }))
   article.value.total = total
 }
-defineExpose({ setList })
+defineExpose({ audit })
 
 onBeforeMount(setArticle)
 </script>

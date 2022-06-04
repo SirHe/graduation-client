@@ -16,6 +16,8 @@
     "driver.js": "^0.9.8",
     "element-plus": "^2.1.10",
     "express": "^4.18.1",
+    "jmpress": "^0.4.5",
+    "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "screenfull": "5.1.0",

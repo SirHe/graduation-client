@@ -27,10 +27,11 @@ defineProps({
   }
 })
 
-const emits = defineEmits(['onChange'])
+const emits = defineEmits(['change'])
 
 const onChange = (page) => {
-  emits('onChange', page)
+  console.log(page)
+  emits('change', page)
 }
 </script>
 
