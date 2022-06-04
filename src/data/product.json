@@ -1,10 +1,42 @@
 [
   {
     "id": 1,
-    "pic": "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
-    "title": "宁夏沙漠瓜",
-    "desc": "沙漠瓜，超级甜",
+    "pic": "1-cover.webp",
+    "title": "麒麟瓜",
+    "desc": "属于西瓜种类的一种，是经过培植的科研新品种，瓜种对生长环境和土壤以及日照的要求非常高。",
     "base": "怀化市会同县坪村镇铺平村种植基地",
-    "shed": "一号大棚"
+    "shed": "一号大棚",
+    "detail": [
+      {
+        "id": 1,
+        "name": "选种",
+        "pic": "1-1.webp",
+        "desc": "大果型西瓜品种国牛一号"
+      },
+      {
+        "id": 2,
+        "name": "种植基地",
+        "pic": "1-2.webp",
+        "desc": "怀化市会同县坪村镇铺平村种植基地一号大棚"
+      },
+      {
+        "id": 3,
+        "name": "加工商",
+        "pic": "1-3.webp",
+        "desc": "昆明晨农集团有限公司"
+      },
+      {
+        "id": 4,
+        "name": "批发商",
+        "pic": "1-4.webp",
+        "desc": "长沙红星蔬菜批发市场"
+      },
+      {
+        "id": 5,
+        "name": "天虹超市",
+        "pic": "1-5.webp",
+        "desc": "湘潭福星东路天虹超市"
+      }
+    ]
   }
 ]

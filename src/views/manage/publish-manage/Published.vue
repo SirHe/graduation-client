@@ -75,6 +75,11 @@ const onOffline = async (id, title) => {
     offlineArticle(id)
   } catch (err) {}
 }
+
+const onPageChange = (page) => {
+  published.value.page++
+  getPublished()
+}
 </script>
 
 <style scoped lang="less">

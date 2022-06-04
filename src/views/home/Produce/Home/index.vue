@@ -12,6 +12,12 @@
       :shed="shed"
     />
   </div>
+  <el-pagination
+    background
+    layout="prev, pager, next"
+    :total="0"
+    style="padding: 20px"
+  />
 </template>
 
 <script setup>
@@ -19,7 +25,12 @@ import { ref } from 'vue'
 import Item from './components/Item.vue'
 import product from '../../../../data/product.json'
 
-const productList = ref(product)
+const productList = ref(
+  product.map((item) => ({
+    ...item,
+    pic: require('../../../../assets/images/product/' + item.pic)
+  }))
+)
 </script>
 
 <style scoped lang="less">

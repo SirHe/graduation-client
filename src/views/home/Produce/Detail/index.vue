@@ -4,6 +4,7 @@
       v-for="(item, index) in data"
       :key="item.id"
       :id="item.id"
+      :img="item.pic"
       :title="item.name"
       :desc="item.desc"
       :isTop="index % 2"
@@ -13,30 +14,18 @@
 
 <script setup>
 import {} from 'vue'
+import { useRoute } from 'vue-router'
 import Item from './components/Item.vue'
+import product from '../../../../data/product.json'
 
-const data = [
-  {
-    id: 1,
-    name: '种子阶段',
-    desc: '大果型西瓜品种国牛一号'
-  },
-  {
-    id: 2,
-    name: '种植阶段',
-    desc: '怀化市会同县坪村镇铺平村种植基地一号大棚'
-  },
-  {
-    id: 3,
-    name: '加工阶段',
-    desc: '昆明晨农集团有限公司'
-  },
-  {
-    id: 4,
-    name: '批发商',
-    desc: '长沙湾蔬菜批发市场'
-  }
-]
+const route = useRoute()
+const id = route.params.id
+const data = product
+  .find((item) => item.id === Number(id))
+  .detail.map((item) => ({
+    ...item,
+    pic: require('../../../../assets/images/product/' + item.pic)
+  }))
 </script>
 
 <style scoped lang="less">
@@ -45,6 +34,7 @@ const data = [
   width: 1200px;
   padding: 20px 0;
   display: flex;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
+  overflow-x: auto;
 }
 </style>

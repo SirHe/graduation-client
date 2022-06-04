@@ -2,10 +2,7 @@
   <div class="item-box">
     <div class="top" :style="{ visibility: isTop ? '' : 'hidden' }">
       <div class="img-box">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSKRTylk5Cdg6NrHq8IVKnijWN7baK5X6Qlw&usqp=CAU"
-          alt=""
-        />
+        <img :src="img" :alt="title" />
       </div>
       <h2 class="title">{{ title }}</h2>
       <p class="desc">{{ desc }}</p>
@@ -17,10 +14,7 @@
     </div>
     <div class="bottom" :style="{ visibility: isTop ? 'hidden' : '' }">
       <div class="img-box">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSKRTylk5Cdg6NrHq8IVKnijWN7baK5X6Qlw&usqp=CAU"
-          alt=""
-        />
+        <img :src="img" :alt="title" />
       </div>
 
       <h2 class="title">{{ title }}</h2>
@@ -34,6 +28,9 @@ import { ref, defineProps } from 'vue'
 
 defineProps({
   title: {
+    type: String
+  },
+  img: {
     type: String
   },
   desc: {
@@ -50,7 +47,7 @@ const color =
 
 <style scoped lang="less">
 .item-box {
-  width: 300px;
+  min-width: 300px;
   height: 600px;
   display: flex;
   flex-direction: column;
@@ -76,12 +73,14 @@ const color =
     }
 
     .img-box {
+      height: 150px;
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;
       overflow: hidden;
       z-index: 100;
       img {
         width: 100%;
+        height: 100%;
 
         transition: transform 1s;
         &:hover {
@@ -102,7 +101,7 @@ const color =
   }
 
   .top {
-    margin-bottom: 60px;
+    margin-bottom: 40px;
 
     &::after {
       bottom: 0;

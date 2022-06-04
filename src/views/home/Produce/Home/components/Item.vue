@@ -53,6 +53,7 @@ const onDetail = (id) => {
 
 <style scoped lang="less">
 .item-box {
+  max-width: 300px;
   .img-box {
     overflow: hidden;
     border-radius: 10px;

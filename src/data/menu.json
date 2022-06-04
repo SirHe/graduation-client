@@ -108,7 +108,7 @@
         "path": "/manage/audit-manage/audit",
         "component": "/manage/audit-manage/Audit",
         "meta": {
-          "title": "撰写新闻"
+          "title": "审核新闻"
         }
       },
       {
